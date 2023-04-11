@@ -7,13 +7,30 @@ export default withIronSessionApiRoute(
   function handler(req, res) {
     // console.log(req.query.action)
     // console.log(req.method)
+    const { action } = req.query;
+    if (req.method === 'POST') {
+      switch (req.query.action) {
     // TODO: implement POST /api/auth/login
+    case 'login':
+      return login(req, res);
+
     // TODO: implement POST /api/auth/logout
+    case 'logout':
+      return logout(req, res);
+      
     // TODO: implement POST /api/auth/signup
-    return res.status(404).end()
-  },
+    case 'signup':
+      return signup(req, res);
+
+      default:
+       return res.status(404).end();
+  }
+} else {
+  res.status(404).end();
+}
+},
   sessionOptions
-)
+);
 
 async function login(req, res) {
   const { username, password } = req.body
