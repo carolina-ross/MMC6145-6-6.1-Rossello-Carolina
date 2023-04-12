@@ -10,7 +10,17 @@ export default withIronSessionApiRoute(
     // TODO: Respond with 404 for all other requests
     // User info can be accessed with req.session
     // No user info on the session means the user is not logged in
+    if (req.method === 'POST') {
+      const data = JSON.parse(req.body)
+      await db.book.add(data)
+      return res.status(200).end()
+    } else if (req.method === 'DELETE') {
+      const data = JSON.parse(req.body)
+      await db.book.remove(data)
+      return res.status(200).end()
+    } else {
     return res.status(404).end()
+    }
   },
   sessionOptions
 )
